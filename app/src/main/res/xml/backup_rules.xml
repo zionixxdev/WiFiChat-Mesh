@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!--
+      Backups are disabled at the manifest level (allowBackup=false) because the
+      database holds private message history and identity metadata. This file
+      exists so the manifest reference resolves and stays explicit.
+    -->
+    <exclude domain="database" path="." />
+    <exclude domain="sharedpref" path="." />
+</full-backup-content>
