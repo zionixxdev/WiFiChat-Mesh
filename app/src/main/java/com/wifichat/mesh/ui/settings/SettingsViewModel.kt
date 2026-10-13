@@ -53,7 +53,7 @@ class SettingsViewModel(
         appendLine("discovery: ${container.settings.discoveryEnabled.value}")
         appendLine("keystoreHardwareBacked: $keystoreHardwareBacked")
         appendLine("status: ${container.status.state.value}")
-        appendLine("queued: ${runCatching { container.queue.count() }.getOrDefault(-1)}")
+        appendLine("queued: ${container.status.state.value.pendingMessages}")
         appendLine("knownPeers: ${container.router.knownPeers.value.size}")
     }
 }

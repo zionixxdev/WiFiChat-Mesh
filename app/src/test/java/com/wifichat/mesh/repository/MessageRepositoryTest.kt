@@ -23,7 +23,7 @@ class MessageRepositoryTest {
     )
 
     @Test
-    fun duplicateSuppressionWithinInstance() = runBlocking {
+    fun duplicateSuppressionWithinInstance(): Unit = runBlocking {
         val repo = MessageRepository(FakeMessageDao(), FakeSeenDao())
         assertThat(repo.isDuplicate("m1")).isFalse()
         repo.markSeen("m1")
@@ -31,7 +31,7 @@ class MessageRepositoryTest {
     }
 
     @Test
-    fun duplicateSuppressionSurvivesRestart() = runBlocking {
+    fun duplicateSuppressionSurvivesRestart(): Unit = runBlocking {
         val seen = FakeSeenDao()
         val repo1 = MessageRepository(FakeMessageDao(), seen)
         repo1.markSeen("persisted-id")
@@ -42,7 +42,7 @@ class MessageRepositoryTest {
     }
 
     @Test
-    fun saveAndUpdateStatus() = runBlocking {
+    fun saveAndUpdateStatus(): Unit = runBlocking {
         val repo = MessageRepository(FakeMessageDao(), FakeSeenDao())
         repo.save(message("m2"))
         assertThat(repo.byId("m2")?.status).isEqualTo(DeliveryState.PENDING)
@@ -52,7 +52,7 @@ class MessageRepositoryTest {
     }
 
     @Test
-    fun pruneExpiredRemovesOnlyExpired() = runBlocking {
+    fun pruneExpiredRemovesOnlyExpired(): Unit = runBlocking {
         val repo = MessageRepository(FakeMessageDao(), FakeSeenDao())
         repo.save(message("keep"))
         repo.save(message("gone", expiresAt = 500))
@@ -64,7 +64,7 @@ class MessageRepositoryTest {
     }
 
     @Test
-    fun statusTransitionsAreRecordedFaithfully() = runBlocking {
+    fun statusTransitionsAreRecordedFaithfully(): Unit = runBlocking {
         val dao = FakeMessageDao()
         val repo = MessageRepository(dao, FakeSeenDao())
         repo.save(message("m3"))

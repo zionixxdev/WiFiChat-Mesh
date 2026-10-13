@@ -20,7 +20,7 @@ class QueueRepositoryTest {
     )
 
     @Test
-    fun enqueueThenDue() = runBlocking {
+    fun enqueueThenDue(): Unit = runBlocking {
         val repo = QueueRepository(FakeQueueDao())
         assertThat(repo.enqueue(item("a", nextAttemptAt = 100))).isTrue()
         assertThat(repo.count()).isEqualTo(1)
@@ -30,7 +30,7 @@ class QueueRepositoryTest {
     }
 
     @Test
-    fun removeDeletesEntry() = runBlocking {
+    fun removeDeletesEntry(): Unit = runBlocking {
         val repo = QueueRepository(FakeQueueDao())
         repo.enqueue(item("a"))
         repo.remove("a")
@@ -38,7 +38,7 @@ class QueueRepositoryTest {
     }
 
     @Test
-    fun pruneExpiredRemovesStaleEntries() = runBlocking {
+    fun pruneExpiredRemovesStaleEntries(): Unit = runBlocking {
         val repo = QueueRepository(FakeQueueDao())
         repo.enqueue(item("live", expiresAt = 0))
         repo.enqueue(item("stale", expiresAt = 500))
@@ -49,7 +49,7 @@ class QueueRepositoryTest {
     }
 
     @Test
-    fun queueIsBounded() = runBlocking {
+    fun queueIsBounded(): Unit = runBlocking {
         val repo = QueueRepository(FakeQueueDao())
         // Fill to capacity.
         for (i in 0 until Constants.MAX_FORWARD_QUEUE) {

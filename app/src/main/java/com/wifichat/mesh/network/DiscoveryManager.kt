@@ -113,10 +113,12 @@ class DiscoveryManager(
     }
 
     fun startScan(): Boolean {
-        if (adapter == null || !adapter.isEnabled) return false
+        // Local non-null val: a smart cast is lost inside the runCatching lambda.
+        val a = adapter ?: return false
+        if (!a.isEnabled) return false
         if (!hasScanPermission()) return false
         if (_scanning.value) return true
-        val started = runCatching { adapter.startDiscovery() }.getOrDefault(false)
+        val started = runCatching { a.startDiscovery() }.getOrDefault(false)
         if (started) setScanning(true)
         return started
     }

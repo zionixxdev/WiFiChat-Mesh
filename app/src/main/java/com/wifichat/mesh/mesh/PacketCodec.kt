@@ -32,11 +32,28 @@ object PacketCodec {
 
     private val MAGIC = byteArrayOf('W'.code.toByte(), 'C'.code.toByte(), 'M'.code.toByte(), 0x01)
 
+    /**
+     * Serialises the complete packet for the wire. NOTE: this is deliberately
+     * NOT the same as [signableBytes] — the frame must carry hopCount so relays
+     * can increment it, whereas the signature must exclude it so relaying does
+     * not invalidate the sender's signature. Writing signableBytes here (as an
+     * earlier version did) silently dropped hopCount and corrupted the frame.
+     */
     fun encode(packet: MeshPacket): ByteArray {
-        val header = signableBytes(packet)
-        val out = ByteArrayOutputStream(header.size + packet.signature.size + 8)
+        val out = ByteArrayOutputStream()
         val dos = DataOutputStream(out)
-        dos.write(header)
+        dos.write(MAGIC)
+        dos.writeInt(packet.protocolVersion)
+        dos.writeByte(packet.type.code)
+        writeString(dos, packet.messageId)
+        writeString(dos, packet.senderId)
+        writeString(dos, packet.recipientId)
+        dos.writeLong(packet.createdAt)
+        dos.writeLong(packet.expiresAt)
+        dos.writeInt(packet.hopCount)
+        dos.writeInt(packet.maxHops)
+        writeBytes(dos, packet.nonce)
+        writeBytes(dos, packet.payload)
         writeBytes(dos, packet.signature)
         dos.flush()
         return out.toByteArray()

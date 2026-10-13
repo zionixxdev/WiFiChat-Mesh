@@ -79,7 +79,7 @@ class IdentityKeyStore(
     fun hasIdentity(): Boolean = prefs.contains(KEY_IDENTITY_PRIVATE)
 
     /** Creates and persists a fresh identity if none exists. Idempotent. */
-    fun ensureIdentity(displayName: String): StoredIdentity {
+    fun ensureIdentity(): StoredIdentity {
         if (hasIdentity()) return loadIdentity()!!
         val pair = crypto.generateIdentityKeyPair()
         val session = crypto.generateSessionKeyPair()

@@ -58,8 +58,9 @@ class MessageAdapter(
             b.bubble.setBackgroundResource(
                 if (isOut) R.drawable.bg_bubble_sent else R.drawable.bg_bubble_received
             )
-            // Align sent bubbles to the right, received to the left.
-            b.container.gravity = if (isOut) {
+            // Align sent bubbles to the right, received to the left. The root
+            // view carries no generated binding field; b.root is the LinearLayout.
+            b.root.gravity = if (isOut) {
                 android.view.Gravity.END or android.view.Gravity.CENTER_VERTICAL
             } else {
                 android.view.Gravity.START or android.view.Gravity.CENTER_VERTICAL

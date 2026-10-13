@@ -48,7 +48,7 @@ class AppContainer(context: Context) {
 
     /** Identity is created on first access; name may still be blank. */
     val identity: StoredIdentity by lazy {
-        keyStore.ensureIdentity(settings.displayName.value)
+        keyStore.ensureIdentity()
     }
 
     val transport: MeshTransport by lazy {

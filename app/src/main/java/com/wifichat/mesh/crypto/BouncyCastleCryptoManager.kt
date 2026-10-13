@@ -92,7 +92,7 @@ class BouncyCastleCryptoManager : CryptoManager {
         nonce: ByteArray,
         aad: ByteArray
     ): ByteArray {
-        val cipher = GCMBlockCipher(AESEngine.newInstance())
+        val cipher = GCMBlockCipher.newInstance(AESEngine.newInstance())
         cipher.init(true, AEADParameters(KeyParameter(key), gcmTagBits, nonce, aad))
         val out = ByteArray(cipher.getOutputSize(plaintext.size))
         val len = cipher.processBytes(plaintext, 0, plaintext.size, out, 0)
@@ -106,7 +106,7 @@ class BouncyCastleCryptoManager : CryptoManager {
         nonce: ByteArray,
         aad: ByteArray
     ): ByteArray {
-        val cipher = GCMBlockCipher(AESEngine.newInstance())
+        val cipher = GCMBlockCipher.newInstance(AESEngine.newInstance())
         cipher.init(false, AEADParameters(KeyParameter(key), gcmTagBits, nonce, aad))
         val out = ByteArray(cipher.getOutputSize(ciphertext.size))
         val len = cipher.processBytes(ciphertext, 0, ciphertext.size, out, 0)
