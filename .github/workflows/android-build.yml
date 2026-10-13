@@ -1,5 +1,7 @@
 name: Android Build
 
+# Builds the debug APK on GitHub's free runners. No paid runners, no paid APIs,
+# no local Android Studio needed. Triggers on every push and manually.
 on:
   push:
     branches: [ main, master ]
@@ -39,7 +41,14 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
+          # The wrapper JAR is not committed (binary); CI installs this exact
+          # Gradle so the build matches gradle/wrapper/gradle-wrapper.properties.
           gradle-version: '8.7'
+
+      - name: Show toolchain versions
+        run: |
+          java -version
+          gradle --version
 
       - name: Run unit tests
         run: gradle testDebugUnitTest --stacktrace
@@ -52,15 +61,21 @@ jobs:
           set -e
           BUILD_DIR=app/build/outputs/apk/debug
           AAPT="$ANDROID_SDK_ROOT/build-tools/34.0.0/aapt"
+          echo "=== APKs produced ==="
+          ls -la "$BUILD_DIR"
+          echo
           for apk in "$BUILD_DIR"/*.apk; do
             [ -e "$apk" ] || continue
             echo "=== $apk ==="
+            echo "-- native libraries (.so) --"
             if unzip -l "$apk" | grep -E 'lib/.*\.so' ; then
-              echo "native libs present"
+              echo "   ^ native libs present (check ABIs above)"
             else
-              echo "none: architecture-neutral"
+              echo "   none: this APK is architecture-neutral"
             fi
+            echo "-- badging --"
             "$AAPT" dump badging "$apk" | grep -E 'package:|sdkVersion|targetSdkVersion|native-code' || true
+            echo
           done
 
       - name: Stage named artifacts
@@ -68,17 +83,29 @@ jobs:
           set -e
           BUILD_DIR=app/build/outputs/apk/debug
           mkdir -p artifacts
+
+          # With no native code the split APKs may or may not be emitted by AGP;
+          # handle both cases and always end up with the three required names.
           armv7=$(ls "$BUILD_DIR"/*armeabi-v7a*.apk 2>/dev/null | head -1 || true)
           arm64=$(ls "$BUILD_DIR"/*arm64-v8a*.apk 2>/dev/null | head -1 || true)
           universal=$(ls "$BUILD_DIR"/*universal*.apk 2>/dev/null | head -1 || true)
           plain=$(ls "$BUILD_DIR"/app-debug.apk 2>/dev/null | head -1 || true)
+
           [ -n "$universal" ] || universal="${plain:-$(ls "$BUILD_DIR"/*.apk | head -1)}"
           [ -n "$armv7" ] || armv7="$universal"
           [ -n "$arm64" ] || arm64="$universal"
+
           cp "$armv7"    artifacts/WiFiChat-Mesh-armv7.apk
           cp "$arm64"    artifacts/WiFiChat-Mesh-arm64.apk
           cp "$universal" artifacts/WiFiChat-Mesh-universal.apk
+
+          echo "=== Staged artifacts ==="
           ls -la artifacts
+          echo
+          echo "NOTE: this app contains no native (.so) libraries, so every APK is"
+          echo "architecture-neutral and installs on BOTH armeabi-v7a and arm64-v8a."
+          echo "The per-ABI names above are provided for clarity and to satisfy the"
+          echo "deliverable naming; they are functionally identical to the universal APK."
 
       - name: Upload armv7 APK
         uses: actions/upload-artifact@v4
@@ -100,3 +127,11 @@ jobs:
           name: WiFiChat-Mesh-universal
           path: artifacts/WiFiChat-Mesh-universal.apk
           if-no-files-found: error
+
+      - name: Upload unit test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-report
+          path: app/build/reports/tests/testDebugUnitTest
+          if-no-files-found: ignore
