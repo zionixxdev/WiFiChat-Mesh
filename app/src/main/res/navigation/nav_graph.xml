@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/chatsFragment">
+
+    <fragment
+        android:id="@+id/chatsFragment"
+        android:name="com.wifichat.mesh.ui.chats.ChatsFragment"
+        android:label="@string/tab_chats"
+        tools:layout="@layout/fragment_chats"
+        xmlns:tools="http://schemas.android.com/tools">
+        <action
+            android:id="@+id/action_chats_to_nearby"
+            app:destination="@id/nearbyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nearbyFragment"
+        android:name="com.wifichat.mesh.ui.nearby.NearbyFragment"
+        android:label="@string/tab_nearby" />
+
+    <fragment
+        android:id="@+id/meshFragment"
+        android:name="com.wifichat.mesh.ui.mesh.MeshFragment"
+        android:label="@string/tab_mesh" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.wifichat.mesh.ui.settings.SettingsFragment"
+        android:label="@string/tab_settings" />
+
+</navigation>

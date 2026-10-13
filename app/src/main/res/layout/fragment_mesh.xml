@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_main"
+    android:padding="@dimen/spacing_md">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tab_mesh"
+        android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/discoveryState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:text="@string/discovery_idle"
+        android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView android:id="@+id/connectedCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Counter" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mesh_connected" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" android:textSize="11sp" android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView android:id="@+id/knownCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Counter" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mesh_known" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" android:textSize="11sp" android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView android:id="@+id/linkCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Counter" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mesh_links" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" android:textSize="11sp" android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:orientation="horizontal">
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:id="@+id/relayedCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Counter" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mesh_relayed" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" android:textSize="11sp" android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:id="@+id/pendingCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Counter" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mesh_pending" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" android:textSize="11sp" android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:id="@+id/failedCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Counter" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mesh_failed" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" android:textSize="11sp" android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.wifichat.mesh.ui.mesh.MeshGraphView
+        android:id="@+id/meshGraph"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="@dimen/spacing_sm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/spacing_sm">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/mesh_event_log"
+            android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/clearLogButton"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mesh_clear_log" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/eventList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false" />
+
+        <TextView
+            android:id="@+id/eventEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/mesh_log_empty"
+            android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body"
+            android:visibility="gone" />
+    </FrameLayout>
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Premium dark palette (the app default). Applied whenever the theme resolves
+  to night, which it does by default (AppCompatDelegate.MODE_NIGHT_YES) and
+  whenever the user picks Dark or System-follows-dark.
+-->
+<resources>
+    <color name="bg_main">#FF0B0D12</color>
+    <color name="bg_surface">#FF141821</color>
+    <color name="bg_elevated">#FF1B202B</color>
+    <color name="accent_primary">#FF8B7CFF</color>
+    <color name="accent_secondary">#FF48D9C5</color>
+    <color name="text_primary">#FFF5F6FA</color>
+    <color name="text_secondary">#FFA0A7B5</color>
+    <color name="divider">#FF272D39</color>
+    <color name="error">#FFFF647C</color>
+
+    <color name="on_accent">#FF0B0D12</color>
+    <color name="bubble_sent">#FF8B7CFF</color>
+    <color name="bubble_sent_text">#FF0B0D12</color>
+    <color name="bubble_received">#FF1B202B</color>
+    <color name="bubble_received_text">#FFF5F6FA</color>
+    <color name="badge">#FF8B7CFF</color>
+</resources>

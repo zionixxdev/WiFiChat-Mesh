@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_md">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_settings"
+            android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title"
+            android:textSize="22sp" />
+
+        <!-- Profile -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_lg" android:text="@string/settings_profile" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title" android:textSize="15sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:hint="@string/settings_display_name"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:maxLength="32" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveNameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/settings_save" />
+
+        <!-- Device identity -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_lg" android:text="@string/settings_device_identity" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title" android:textSize="15sp" />
+        <TextView android:id="@+id/deviceTag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_xs" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" />
+        <TextView android:id="@+id/keystoreState" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" android:textSize="12sp" />
+
+        <!-- Appearance -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_lg" android:text="@string/settings_appearance" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title" android:textSize="15sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/settings_theme" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" />
+        <RadioGroup
+            android:id="@+id/themeGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton android:id="@+id/theme_dark" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/theme_dark" />
+            <RadioButton android:id="@+id/theme_light" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/theme_light" />
+            <RadioButton android:id="@+id/theme_system" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/theme_system" />
+        </RadioGroup>
+
+        <!-- Notifications / discovery -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_lg" android:text="@string/settings_notifications" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title" android:textSize="15sp" />
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/notificationsSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_notifications" />
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/discoverySwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_discovery" />
+
+        <!-- Privacy -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_lg" android:text="@string/settings_privacy" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title" android:textSize="15sp" />
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/readReceiptsSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_read_receipts" />
+
+        <!-- Network -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_lg" android:text="@string/settings_network" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title" android:textSize="15sp" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/settings_max_hops" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" />
+            <TextView android:id="@+id/hopsValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" />
+        </LinearLayout>
+        <com.google.android.material.slider.Slider
+            android:id="@+id/hopsSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="1"
+            android:valueTo="10" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/settings_message_expiry" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" />
+            <TextView android:id="@+id/ttlValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" />
+        </LinearLayout>
+        <com.google.android.material.slider.Slider
+            android:id="@+id/ttlSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="1"
+            android:valueTo="72" />
+
+        <!-- Data -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_lg" android:text="@string/settings_data" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title" android:textSize="15sp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/clearDataButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/settings_clear_data" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/exportButton"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_export" />
+
+        <!-- About -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_lg" android:text="@string/settings_about" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Title" android:textSize="15sp" />
+        <TextView android:id="@+id/version" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_xs" android:text="@string/settings_offline_note" android:textAppearance="@style/TextAppearance.WiFiChatMesh.Body" android:textSize="12sp" />
+    </LinearLayout>
+</ScrollView>

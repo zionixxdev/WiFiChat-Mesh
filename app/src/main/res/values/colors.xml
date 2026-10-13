@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Light palette. The dark palette lives in values-night/colors.xml. -->
+<resources>
+    <color name="bg_main">#FFFFFFFF</color>
+    <color name="bg_surface">#FFF4F5F9</color>
+    <color name="bg_elevated">#FFFFFFFF</color>
+    <color name="accent_primary">#FF6C5CE7</color>
+    <color name="accent_secondary">#FF1FA894</color>
+    <color name="text_primary">#FF12141A</color>
+    <color name="text_secondary">#FF5A6272</color>
+    <color name="divider">#FFE2E5EC</color>
+    <color name="error">#FFD6455F</color>
+
+    <color name="on_accent">#FFFFFFFF</color>
+    <color name="bubble_sent">#FF6C5CE7</color>
+    <color name="bubble_sent_text">#FFFFFFFF</color>
+    <color name="bubble_received">#FFECEEF4</color>
+    <color name="bubble_received_text">#FF12141A</color>
+    <color name="badge">#FF6C5CE7</color>
+</resources>
