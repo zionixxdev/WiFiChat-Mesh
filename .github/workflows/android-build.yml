@@ -1,0 +1,102 @@
+name: Android Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build APKs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install SDK packages
+        run: |
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+          yes | sdkmanager --licenses || true
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: Run unit tests
+        run: gradle testDebugUnitTest --stacktrace
+
+      - name: Build debug APKs
+        run: gradle assembleDebug --stacktrace
+
+      - name: Inspect APKs and verify ABIs
+        run: |
+          set -e
+          BUILD_DIR=app/build/outputs/apk/debug
+          AAPT="$ANDROID_SDK_ROOT/build-tools/34.0.0/aapt"
+          for apk in "$BUILD_DIR"/*.apk; do
+            [ -e "$apk" ] || continue
+            echo "=== $apk ==="
+            if unzip -l "$apk" | grep -E 'lib/.*\.so' ; then
+              echo "native libs present"
+            else
+              echo "none: architecture-neutral"
+            fi
+            "$AAPT" dump badging "$apk" | grep -E 'package:|sdkVersion|targetSdkVersion|native-code' || true
+          done
+
+      - name: Stage named artifacts
+        run: |
+          set -e
+          BUILD_DIR=app/build/outputs/apk/debug
+          mkdir -p artifacts
+          armv7=$(ls "$BUILD_DIR"/*armeabi-v7a*.apk 2>/dev/null | head -1 || true)
+          arm64=$(ls "$BUILD_DIR"/*arm64-v8a*.apk 2>/dev/null | head -1 || true)
+          universal=$(ls "$BUILD_DIR"/*universal*.apk 2>/dev/null | head -1 || true)
+          plain=$(ls "$BUILD_DIR"/app-debug.apk 2>/dev/null | head -1 || true)
+          [ -n "$universal" ] || universal="${plain:-$(ls "$BUILD_DIR"/*.apk | head -1)}"
+          [ -n "$armv7" ] || armv7="$universal"
+          [ -n "$arm64" ] || arm64="$universal"
+          cp "$armv7"    artifacts/WiFiChat-Mesh-armv7.apk
+          cp "$arm64"    artifacts/WiFiChat-Mesh-arm64.apk
+          cp "$universal" artifacts/WiFiChat-Mesh-universal.apk
+          ls -la artifacts
+
+      - name: Upload armv7 APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: WiFiChat-Mesh-armv7
+          path: artifacts/WiFiChat-Mesh-armv7.apk
+          if-no-files-found: error
+
+      - name: Upload arm64 APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: WiFiChat-Mesh-arm64
+          path: artifacts/WiFiChat-Mesh-arm64.apk
+          if-no-files-found: error
+
+      - name: Upload universal APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: WiFiChat-Mesh-universal
+          path: artifacts/WiFiChat-Mesh-universal.apk
+          if-no-files-found: error
